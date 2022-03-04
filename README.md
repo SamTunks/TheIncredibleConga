@@ -23,3 +23,5 @@ Throughout the project, we endeavoured to write clean and well organized code, u
 Naturally, due to the time limit, there were features we had hoped to flesh out further and ideas that were beyond the scope of the jam.
 
 One such feature was the rival conga. This had been central to the game’s character since we began as it added necessary depth to the challenge of the game. We had hoped to make the rival conga more dynamic in the way it could move around the house as well as on-screen effects to signal this was a major event. Initially, the rival conga would be a breakaway conga from the player’s once it reached a given size, with the ability to recapture this conga for bonus points. In order to get this concept implemented within the jam’s time limit, we compromised by adding fixed nodes the conga would path around after 30 seconds of gameplay.
+
+Another missing feature is instructions on how to play the game and a menu allowing for pausing or quitting. This is some very needed functionality and would be top priority should the project be worked on in future.
