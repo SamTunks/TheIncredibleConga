@@ -7,9 +7,13 @@ namespace Player
     public class GameScript : MonoBehaviour
     {
         public GameObject followerObject;
+        public GameObject rivalObject;
         public bool[] spawnLocation = new bool[29];
         float spawnFollowerCooldown = 1;
+        float spawnRivalCooldown = 30;
         public bool followerSearching = false;
+        public bool spawningRivalConga = false;
+        public bool rivalCongaExists = false;
 
         // Start is called before the first frame update
         void Start()
@@ -47,9 +51,23 @@ namespace Player
                 }
             }
 
-            if (spawnFollowerCooldown > 0 && followerSearching == false)
+            if (spawnFollowerCooldown > 0 && followerSearching == false && spawningRivalConga == false)
             {
                 spawnFollowerCooldown -= 0.02f;
+            }
+
+            if (spawnRivalCooldown > 0 && rivalCongaExists == false)
+            {
+                spawnRivalCooldown -= 0.02f;
+                Debug.Log(spawnRivalCooldown);
+            }
+
+            if (spawnRivalCooldown <= 0 && rivalCongaExists == false)
+            {
+                spawnRivalCooldown = 60;
+                spawningRivalConga = true;
+                rivalCongaExists = true;
+                SpawnRivalConga();
             }
         }
 
@@ -65,6 +83,18 @@ namespace Player
         public bool GetSpawnBool(int pos)
         {
             return spawnLocation[pos];
+        }
+
+        void SpawnRivalConga()
+        {
+            Instantiate(rivalObject, transform.position, transform.rotation);
+            int RandNum = Random.Range(15, 20);
+            for (int i = 1; i < RandNum; i++)
+            {
+                Follower followerInstance = Instantiate(followerObject, transform.position, transform.rotation).GetComponent<Follower>();
+                followerInstance.isRival = true;
+            }
+            spawningRivalConga = false;
         }
     }
 }

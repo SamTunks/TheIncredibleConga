@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Player
@@ -74,10 +75,9 @@ namespace Player
             transform.position += Quaternion.Euler(0, 0, currentAngle) * Vector3.right * Time.deltaTime * movementSpeed;
 
             //Create follower for testing purposes
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.R))
             {
-                Vector3 spawnLocation = new Vector3(-1.11f, -4.29f, 0);
-                Instantiate(followerObject, spawnLocation, transform.rotation);
+                SceneManager.LoadScene("SampleScene");
             }
 
             //Create attraction zone
@@ -106,8 +106,8 @@ namespace Player
                 if (colFollower.inConga == true)
                 {
                     //Fail
-                    Debug.Log(colFollower.isPrimed + ", " + colFollower.isAttracted + ", " + colFollower.inConga);
-                    //Destroy(gameObject);
+                    //Debug.Log(colFollower.isPrimed + ", " + colFollower.isAttracted + ", " + colFollower.inConga);
+                    SceneManager.LoadScene("SampleScene");
                 }
             }
 
@@ -115,7 +115,7 @@ namespace Player
             {
                 //Fail
                 //Debug.Log("You fail");
-                //Destroy(gameObject);
+                SceneManager.LoadScene("SampleScene");
             }
         }
 
@@ -125,7 +125,7 @@ namespace Player
             //Debug.Log(collision.gameObject.name);
             if (collision.gameObject.tag == "Follower")
             {
-                Follower colFollower = collision.gameObject.GetComponent<Follower>();                
+                Follower colFollower = collision.gameObject.GetComponent<Follower>();
                 if (colFollower.isPrimed == true)
                 {
                     score = score + 1;

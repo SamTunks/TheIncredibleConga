@@ -22,6 +22,8 @@ namespace Player
         public bool isSpawning = false;
         public bool lookingForSpawn = true;
 
+        public bool isRival = false;
+
         public int rotationMult = 1;
 
         public Queue<Vector3> LeaderTrail;
@@ -49,11 +51,19 @@ namespace Player
 
             player = GameObject.Find("CongaMan");
             gameScript = GameObject.Find("GameScript").GetComponent<GameScript>();
-            gameScript.followerSearching = true;
             LeaderTrail = new Queue<Vector3>();
 
-            GenerateRandom();
-            CheckNode();
+            if (isRival != true)
+            {
+                GenerateRandom();
+                CheckNode();
+                gameScript.followerSearching = true;
+            }
+            else
+            {
+                lookingForSpawn = false;
+                isAttracted = true;
+            }
 
             int randNum = Random.Range(1, 4);
             switch (randNum)
@@ -80,11 +90,20 @@ namespace Player
         {
             if (isAttracted == true && toFollow == null)
             {
-                PlayerScript playerScript = GameObject.Find("CongaMan").GetComponent<PlayerScript>();
-                toFollow = playerScript.lastPerson;
+                if (isRival == true)
+                {
+                    RivalLeader RivalScript = GameObject.Find("RivalLeader(Clone)").GetComponent<RivalLeader>();
+                    toFollow = RivalScript.lastPerson;
+                    RivalScript.lastPerson = gameObject;
+                }
+                else
+                {
+                    PlayerScript playerScript = GameObject.Find("CongaMan").GetComponent<PlayerScript>();
+                    toFollow = playerScript.lastPerson;
+                    playerScript.lastPerson = gameObject;
+                }
+                
                 Animation.Play("CongaAnimation"+ characterType, -1, toFollow.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
-
-                playerScript.lastPerson = gameObject;
             }
 
             if (isPrimed == true && gameScript.GetSpawnBool(pathToFollow - 1) == true)
